@@ -1,4 +1,4 @@
-name: Docker Build
+name: Docker Build and Push to GCP
 on:
   push:
     branches:
@@ -39,7 +39,7 @@ jobs:
           token_format: access_token
           workload_identity_provider: projects/299310520682/locations/global/workloadIdentityPools/omni-pool/providers/omni-provider
           service_account: github-actions-service-account@omni-386514.iam.gserviceaccount.com
-          access_token_lifetime: 300s
+          access_token_lifetime: 1000s
 
       # login to gar
       - name: Login to Artifact Registry
@@ -57,8 +57,6 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile
-          cache-from: type=registry,ref=blockscout/blockscout:buildcache
-          cache-to: type=registry,ref=blockscout/blockscout:buildcache,mode=max
           push: true
           tags: |
             us-central1-docker.pkg.dev/omni-386514/omni/omni-blockscout:${{ env.SHORT_SHA }}
