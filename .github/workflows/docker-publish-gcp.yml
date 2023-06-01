@@ -4,9 +4,12 @@ on:
     branches:
       - master
 
+env:
+  RELEASE_VERSION: 5.1.5
+
 jobs:
   omnid-docker:
-    name: Build and Push images to Docker Hub
+    name: Build and Push images to GCP
     runs-on: ubuntu-latest
     permissions:
       contents: 'read'
@@ -46,21 +49,32 @@ jobs:
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
-      # publish omnid to gar
-      - name: Tag `omnid` Docker image and push
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: |
-            us-central1-docker.pkg.dev/omni-386514/omni/omnid:${{ steps.commit-hash.outputs.short }}
-            us-central1-docker.pkg.dev/omni-386514/omni/omnid:latest
+      - name: Add SHORT_SHA env property with commit short sha
+        run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
 
-      # publish omni-testnet to gar
       - name: Tag Docker image and push to Google Artifact Registry
         uses: docker/build-push-action@v2
         with:
-          push: true
+          context: .
           file: ./docker/Dockerfile
+          cache-from: type=registry,ref=blockscout/blockscout:buildcache
+          cache-to: type=registry,ref=blockscout/blockscout:buildcache,mode=max
+          push: true
           tags: |
-            us-central1-docker.pkg.dev/omni-386514/omni/omni-blockscout:${{ steps.commit-hash.outputs.short }}
+            us-central1-docker.pkg.dev/omni-386514/omni/omni-blockscout:${{ env.SHORT_SHA }}
             us-central1-docker.pkg.dev/omni-386514/omni/omni-blockscout:latest
+          build-args: |
+            CACHE_EXCHANGE_RATES_PERIOD=
+            API_V1_READ_METHODS_DISABLED=false
+            DISABLE_WEBAPP=false
+            API_V1_WRITE_METHODS_DISABLED=false
+            CACHE_TOTAL_GAS_USAGE_COUNTER_ENABLED=
+            ADMIN_PANEL_ENABLED=false
+            DECODE_NOT_A_CONTRACT_CALLS=false
+            MIXPANEL_URL=
+            MIXPANEL_TOKEN=
+            AMPLITUDE_URL=
+            AMPLITUDE_API_KEY=
+            CACHE_ADDRESS_WITH_BALANCES_UPDATE_INTERVAL=
+            BLOCKSCOUT_VERSION=v${{ env.RELEASE_VERSION }}-beta.+commit.${{ env.SHORT_SHA }}
+            RELEASE_VERSION=${{ env.RELEASE_VERSION }}
