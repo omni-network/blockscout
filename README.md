@@ -14,6 +14,26 @@ See our [project documentation](https://docs.blockscout.com/) for detailed infor
 
 For questions, comments and feature requests see the [discussions section](https://github.com/blockscout/blockscout/discussions).
 
+## Omni
+
+This branch maintains the active development of Omni's blockscout fork. The master branch is left unchanged, and should be used to sync with upstream changes when necessary. This branch builds off the commit of some tagged blockscout release. Currently, this branch builds of off [blockscout v5.1.5](https://github.com/blockscout/blockscout/tree/v5.1.5-beta).
+
+Changes from master should be merged into this branch when a new base blockscout release is selected to build off.
+
+Required omni changes include:
+
+- adding omni assets to the blockscout ui (favicon, logo)
+- updating blockscout ui footer text
+- replacing blockscout github with omni github workflows
+- updating this readme
+
+If / when omni requires more substantial changes to blockscout, this branching strategy should be reconsidered.
+
+### Omni Deployments
+
+When this branch is ready for production, it should be tagged and released on github. This will trigger a new `omniops/blockscout` image be built and published to docker hub. To use this new image
+in production, you will need update the `blockscout_docker_image` variable in each blockscout vpc instance in Omni's [blockscout-terraform](https://github.com/omni-network/blockscout-terraform/tree/omni).
+
 ## About BlockScout
 
 BlockScout is an Elixir application that allows users to search transactions, view accounts and balances, and verify smart contracts on the Ethereum network including all forks and sidechains.
