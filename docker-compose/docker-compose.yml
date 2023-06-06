@@ -16,7 +16,7 @@ services:
       - db
       - smart-contract-verifier
       - redis_db
-    image: blockscout/blockscout:${DOCKER_TAG:-latest}
+    image: omniops/blockscout:${DOCKER_TAG:-latest}
     build:
       context: ..
       dockerfile: ./docker/Dockerfile
@@ -39,6 +39,41 @@ services:
       - 'host.docker.internal:host-gateway'
     env_file:
       -  ./envs/common-blockscout.env
+    environment:
+      ETHEREUM_JSONRPC_VARIANT: 'nethermind'
+      ETHEREUM_JSONRPC_HTTP_URL: http://internal-testnet-rpc.omni.network:8545
+      ETHEREUM_JSONRPC_TRACE_URL: http://internal-testnet-rpc.omni.network:8545
+      JSON_RPC: http://internal-testnet-rpc.omni.network:8545
+      DATABASE_URL: postgresql://postgres:@host.docker.internal:7432/blockscout?ssl=false
+      ECTO_USE_SSL: 'false'
+      SECRET_KEY_BASE: '56NtB48ear7+wMSf0IQuWDAAazhpb31qyc7GiyspBP2vh7t5zlCsF5QDv76chXeN'
+      BLOCKSCOUT_VERSION: v5.1.5-beta
+      HEART_BEAT_TIMEOUT: "30"
+      CACHE_BLOCK_COUNT_PERIOD: "7200"
+      PORT: "4000"
+      HEALTHY_BLOCKS_PERIOD: "60"
+      NETWORK: "Omni"
+      SUBNETWORK: "Omni Testnet"
+      COIN: "OMNI"
+      COIN_NAME: "OMNI"
+      TXS_STATS_DAYS_TO_COMPILE_AT_INIT: "1"
+      COIN_BALANCE_HISTORY_DAYS: "90"
+      POOL_SIZE: "20"
+      DISPLAY_TOKEN_ICONS: "true"
+      CHAIN_ID: '165'
+      INDEXER_MEMORY_LIMIT: "3"
+      SHOW_TESTNET_LABEL: true
+      SUPPORTED_CHAINS: '[]'
+      LOGO: /images/omni_logo.svg
+      APPS_MENU: false
+      FOOTER_LOGO: /images/omni_logo.svg
+      FOOTER_CHAT_LINK: https://discord.com/invite/bKNXmaX9VD
+      FOOTER_FORUM_LINK_ENABLED: false
+      FOOTER_TELEGRAM_LINK_ENABLED: true
+      FOOTER_TELEGRAM_LINK: https://t.me/OmniFDN
+      FOOTER_GITHUB_LINK: https://github.com/omni-network/blockscout
+      FOOTER_LINK_TO_OTHER_EXPLORERS: false
+      NEXT_PUBLIC_FOOTER_TWITTER_LINK: https://twitter.com/OmniFDN
     ports:
       - 4000:4000
     volumes:
