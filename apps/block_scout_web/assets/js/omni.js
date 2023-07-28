@@ -4,7 +4,7 @@ let txMap = {};
 // default api url point to local server
 let url = "http://localhost:8888";
 
-const customMarker = () => {
+const xchainMarker = () => {
   const div = document.createElement("div");
   div.style =
     "height: inherit;margin-left: 1vw;background-color: #8258cd;padding: 0 0.5vw;border-radius: 1vw;";
@@ -28,7 +28,7 @@ const customXChainDataView = (details) => {
 };
 
 // expected return {txHash1:true, txHas2:true...}
-const checkTx = async (elements) => {
+const getXChainTxs = async (elements) => {
   const response = await fetch(url + "/checkOmniTxHashes", {
     method: "POST",
     headers: {
@@ -69,7 +69,7 @@ const handletxHashLinks = async () => {
   for (let i of elements) {
     if (i.parentNode.childElementCount <= 2 && txMap[i.innerHTML] === true) {
       console.log("from cache " + i.innerHTML);
-      i.parentNode.appendChild(customMarker());
+      i.parentNode.appendChild(xchainMarker());
     } else if (txMap[i.innerHTML] === undefined) {
       unknownTxList.push(i.innerHTML);
     }
@@ -77,7 +77,7 @@ const handletxHashLinks = async () => {
   if (unknownTxList.length == 0) {
     return;
   }
-  const xChainTxs = await checkTx(unknownTxList);
+  const xChainTxs = await getXChainTxs(unknownTxList);
   if (xChainTxs === undefined) {
     return;
   }
@@ -85,7 +85,7 @@ const handletxHashLinks = async () => {
     if (xChainTxs[i.innerHTML] === true) {
       txMap[i.innerHTML] = true;
       console.log("from api " + i.innerHTML);
-      i.parentNode.appendChild(customMarker());
+      i.parentNode.appendChild(xchainMarker());
     } else if (txMap[i.innerHTML] == undefined) {
       txMap[i.innerHTML] = false;
     }
@@ -120,7 +120,6 @@ const repeatLoop = async (timeMS) => {
 };
 
 const watch = async () => {
-
   // update api url depending on blockscouts deployed environment
   if (window.location.hostname.startsWith("testnet")) {
     url = "testnet-1-xchain.explorer.omni.network";
@@ -132,16 +131,16 @@ const watch = async () => {
   if (window.location.pathname === "/") {
     repeatLoop(1500);
   } else if (window.location.pathname.startsWith("/address/")) {
-    // every 5 second because there can be too many updates
+    // every 2 second because there can be too many updates
     repeatLoop(2000);
   } else if (
     window.location.pathname.match(/\/token(.*)\/token-transfers/g) != null &&
     window.location.pathname.match(/\/token(.*)\/token-transfers/g).length != 0
   ) {
-    // every 5 second because there can be too many updates
+    // every 2 second because there can be too many updates
     repeatLoop(2000);
   } else if (window.location.pathname === "/txs") {
-    // every 5 second because there can be too many updates
+    // every 2 second because there can be too many updates
     repeatLoop(2000);
   } else if (
     window.location.pathname.match(/\/block(.*)\/transactions/g) != null &&
