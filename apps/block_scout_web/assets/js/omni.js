@@ -122,9 +122,9 @@ const repeatLoop = async (timeMS) => {
 const watch = async () => {
   // update api url depending on blockscouts deployed environment
   if (window.location.hostname.startsWith("testnet")) {
-    url = "testnet-1-xchain.explorer.omni.network";
+    url = "https://testnet-1-xchain.explorer.omni.network";
   } else if (window.location.hostname.startsWith("staging")) {
-    url = "staging-xchain.explorer.omni.network";
+    url = "https://staging-xchain.explorer.omni.network";
   }
 
   // handle for homepage
