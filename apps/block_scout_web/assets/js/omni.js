@@ -1,8 +1,8 @@
 // local cache to re-use data
-let txMap = {};
+let txMapCache = {};
 
-// default api url point to local server
-let url = "http://localhost:8888";
+// default api indexerUrl point to local server
+let indexerUrl = "http://localhost:8888";
 
 const xchainMarker = () => {
   const div = document.createElement("div");
@@ -30,7 +30,7 @@ const customXChainDataView = (details) => {
 // expected return {txHash1:true, txHas2:true...}
 const getXChainTxs = async (elements) => {
   try {
-    const response = await fetch(url + "/checkOmniTxHashes", {
+    const response = await fetch(indexerUrl + "/checkOmniTxHashes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const getXChainTxs = async (elements) => {
 
 const getTxDetails = async (omniTxHash) => {
   try {
-    const response = await fetch(url + `/omniTx/${omniTxHash}`);
+    const response = await fetch(indexerUrl + `/omniTx/${omniTxHash}`);
     const data = await response.json();
     if (data.length === 0) {
       return undefined;
@@ -76,10 +76,13 @@ const handletxHashLinks = async () => {
   // check local cache
   const unknownTxList = [];
   for (let i of elements) {
-    if (i.parentNode.childElementCount <= 2 && txMap[i.innerHTML] === true) {
+    if (
+      i.parentNode.childElementCount <= 2 &&
+      txMapCache[i.innerHTML] === true
+    ) {
       console.log("from cache " + i.innerHTML);
       i.parentNode.appendChild(xchainMarker());
-    } else if (txMap[i.innerHTML] === undefined) {
+    } else if (txMapCache[i.innerHTML] === undefined) {
       unknownTxList.push(i.innerHTML);
     }
   }
@@ -92,11 +95,11 @@ const handletxHashLinks = async () => {
   }
   for (let i of elements) {
     if (xChainTxs[i.innerHTML] === true) {
-      txMap[i.innerHTML] = true;
+      txMapCache[i.innerHTML] = true;
       console.log("from api " + i.innerHTML);
       i.parentNode.appendChild(xchainMarker());
-    } else if (txMap[i.innerHTML] == undefined) {
-      txMap[i.innerHTML] = false;
+    } else if (txMapCache[i.innerHTML] == undefined) {
+      txMapCache[i.innerHTML] = false;
     }
   }
 };
@@ -129,11 +132,11 @@ const repeatLoop = async (timeMS) => {
 };
 
 const watch = async () => {
-  // update api url depending on blockscouts deployed environment
+  // update api indexerUrl depending on blockscouts deployed environment
   if (window.location.hostname.startsWith("testnet")) {
-    url = "https://testnet-1-xapi.explorer.omni.network";
+    indexerUrl = "https://testnet-1-xapi.explorer.omni.network";
   } else if (window.location.hostname.startsWith("staging")) {
-    url = "https://staging-xapi.explorer.omni.network";
+    indexerUrl = "https://staging-xapi.explorer.omni.network";
   }
 
   // handle for homepage
