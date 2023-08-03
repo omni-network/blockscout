@@ -29,30 +29,39 @@ const customXChainDataView = (details) => {
 
 // expected return {txHash1:true, txHas2:true...}
 const getXChainTxs = async (elements) => {
-  const response = await fetch(url + "/checkOmniTxHashes", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      txHashes: elements,
-    }),
-  });
-  if (response.status == 400) {
-    await response.json().then(console.error);
+  try {
+    const response = await fetch(url + "/checkOmniTxHashes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        txHashes: elements,
+      }),
+    });
+    if (response.status == 400) {
+      await response.json().then(console.error);
+      return undefined;
+    }
+    return response.json();
+  } catch (err) {
+    console.error("error getting xchain txs: ", err);
     return undefined;
   }
-  return response.json();
 };
 
 const getTxDetails = async (omniTxHash) => {
-  // dummy response
-  const response = await fetch(url + `/omniTx/${omniTxHash}`);
-  const data = await response.json();
-  if (data.length === 0) {
+  try {
+    const response = await fetch(url + `/omniTx/${omniTxHash}`);
+    const data = await response.json();
+    if (data.length === 0) {
+      return undefined;
+    }
+    return data;
+  } catch (err) {
+    console.error("error getting xchain tx details: ", omniTxHash, " ", err);
     return undefined;
   }
-  return data;
 };
 
 const getAllTxHashElements = () => {
