@@ -19,7 +19,7 @@ defmodule BlockScoutWeb.CSPHeader do
 
     Controller.put_secure_browser_headers(conn, %{
       "content-security-policy" => "\
-        connect-src 'self' #{json_rpc_url} #{config[:mixpanel_url]} #{config[:amplitude_url]} #{websocket_endpoints(conn)} #{czilladx_url} #{trustwallet_url} #{walletconnect_urls};\
+        connect-src 'self' http://localhost:8888 https://testnet-1-xapi.explorer.omni.network https://staging-xapi.explorer.omni.network #{json_rpc_url} #{config[:mixpanel_url]} #{config[:amplitude_url]} #{websocket_endpoints(conn)} #{czilladx_url} #{trustwallet_url} #{walletconnect_urls};\
         default-src 'self';\
         script-src 'self' 'unsafe-inline' 'unsafe-eval' #{coinzillatag_url} #{google_url} https://www.gstatic.com;\
         style-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com;\
