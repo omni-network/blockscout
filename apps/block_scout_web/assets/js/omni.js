@@ -1,27 +1,52 @@
 // local cache to re-use data
 let txMapCache = {};
 
+const explorerMap = {
+  "scroll-sepolia": "https://sepolia-blockscout.scroll.io/tx/",
+  "arbitrum-goerli": "https://goerli.arbiscan.io/tx/",
+  "optimism-goerli": "https://goerli-optimism.etherscan.io/tx/",
+  "linea-goerli": "https://explorer.goerli.linea.build/tx/",
+
+  // for local test chains
+  "chain-a": "https://chain-a.etherscan.io/tx/",
+  "chain-b": "https://chain-b.etherscan.io/tx/",
+};
+
 // default api indexerUrl point to local server
 let indexerUrl = "http://localhost:8888";
 
 const xchainMarker = () => {
   const div = document.createElement("div");
   div.style =
-    "height: inherit;margin-left: 1vw;background-color: #8258cd;padding: 0 0.5vw;border-radius: 1vw;";
+    "height: inherit;margin-left: 1rem;background-color: #8258cd;padding: 0 0.5rem;border-radius: 1rem;";
   div.innerHTML =
-    '<img style="height: 1.5vw;display: inline-block;margin-top: -0.1vw" src="/images/favicon-32x32.png"> <div style="margin-top: 0.2vw;display: inline-block;font-weight: bolder;color: white;">X-Chain</div>';
+    '<img style="height: 1.5rem;display: inline-block;margin-top: -0.1rem" src="/images/favicon-32x32.png"> <div style="margin-top: 0.2rem;display: inline-block;font-weight: bolder;color: white;">X-Rollup</div>';
   return div;
 };
 
 const customXChainDataView = (details) => {
+  for (let i = 0; i < details.length; i++) {
+    let externalChain = "";
+    if (details[i]["SourceChain"] != "omni") {
+      externalChain = details[i]["SourceChain"];
+    } else if (details[i]["DestinationChain"] != "omni") {
+      externalChain = details[i]["DestinationChain"];
+    }
+    let externalChainExplorer = "";
+    if (explorerMap[externalChain] !== undefined) {
+      externalChainExplorer = explorerMap[externalChain];
+    }
+    details[i]["ChainTxHash"] =
+      externalChainExplorer + details[i]["ChainTxHash"];
+  }
   const div = document.createElement("div");
   div.style =
-    "height: inherit;background-color: rgb(130, 88, 205);padding: 2.5vw 1.5vw 0vw 1.5vw;";
+    "height: inherit;background-color: rgb(130, 88, 205);padding: 2.5rem 1.5rem 0rem 1.5rem;";
   div.innerHTML = `
   <div>
-  <img style="height: 2vw; display: inline-block;margin-top: -0.3vw" src="/images/favicon-32x32.png"> 
-  <div style="margin-top: 0.1vw;display: inline-block;font-weight: bolder;color: white;font-size: 1.2vw;padding-left: 0.5vw;">X-Chain Transaction Details</div></div>
-  <pre style="font-size: 1vw;display: block;margin-top: 0.5vw;font-weight: bolder;color: white;padding-left: 1vw;">
+  <img style="height: 2rem; display: inline-block;margin-top: -0.3rem" src="/images/favicon-32x32.png"> 
+  <div style="margin-top: 0.1rem;display: inline-block;font-weight: bolder;color: white;font-size: 1.2rem;padding-left: 0.5rem;">X-Rollup Transaction Details</div></div>
+  <pre style="font-size: 0.9rem;display: block;margin-top: 0.5rem;font-weight: bolder;color: white;padding-left: 1rem;">
   ${JSON.stringify(details, null, 4)}
   </pre>`;
   return div;
