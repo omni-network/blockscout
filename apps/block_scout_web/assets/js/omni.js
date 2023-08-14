@@ -159,7 +159,7 @@ const repeatLoop = async (timeMS) => {
 const watch = async () => {
   // update api indexerUrl depending on blockscouts deployed environment
   if (window.location.hostname.startsWith("testnet")) {
-    indexerUrl = "https://testnet-1-xapi.explorer.omni.network";
+    indexerUrl = "https://testnet-xapi.explorer.omni.network";
   } else if (window.location.hostname.startsWith("staging")) {
     indexerUrl = "https://staging-xapi.explorer.omni.network";
   }
