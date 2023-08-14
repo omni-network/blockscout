@@ -41,9 +41,9 @@ services:
       -  ./envs/common-blockscout.env
     environment:
       ETHEREUM_JSONRPC_VARIANT: 'nethermind'
-      ETHEREUM_JSONRPC_HTTP_URL: http://internal-testnet-rpc.omni.network:8545
-      ETHEREUM_JSONRPC_TRACE_URL: http://internal-testnet-rpc.omni.network:8545
-      JSON_RPC: http://internal-testnet-rpc.omni.network:8545
+      ETHEREUM_JSONRPC_HTTP_URL: http://staging.omni.network:8545
+      ETHEREUM_JSONRPC_TRACE_URL: http://staging.omni.network:8545
+      JSON_RPC: http://staging.omni.network:8545
       DATABASE_URL: postgresql://postgres:@host.docker.internal:7432/blockscout?ssl=false
       ECTO_USE_SSL: 'false'
       SECRET_KEY_BASE: '56NtB48ear7+wMSf0IQuWDAAazhpb31qyc7GiyspBP2vh7t5zlCsF5QDv76chXeN'
