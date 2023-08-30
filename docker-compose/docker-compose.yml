@@ -1,5 +1,6 @@
 version: '3.8'
 
+
 services:
   redis_db:
     extends:
@@ -40,10 +41,11 @@ services:
     env_file:
       -  ./envs/common-blockscout.env
     environment:
-      ETHEREUM_JSONRPC_VARIANT: 'nethermind'
-      ETHEREUM_JSONRPC_HTTP_URL: http://staging.omni.network:8545
-      ETHEREUM_JSONRPC_TRACE_URL: http://staging.omni.network:8545
-      JSON_RPC: http://staging.omni.network:8545
+      PERMANENT_LIGHT_MODE_ENABLED: true
+      ETHEREUM_JSONRPC_VARIANT: 'geth'
+      ETHEREUM_JSONRPC_HTTP_URL: http://testnet-sentry-explorer.omni.network:8545
+      ETHEREUM_JSONRPC_TRACE_URL: http://testnet-sentry-explorer.omni.network:8545
+      JSON_RPC: https://testnet.omni.network
       DATABASE_URL: postgresql://postgres:@host.docker.internal:7432/blockscout?ssl=false
       ECTO_USE_SSL: 'false'
       SECRET_KEY_BASE: '56NtB48ear7+wMSf0IQuWDAAazhpb31qyc7GiyspBP2vh7t5zlCsF5QDv76chXeN'
@@ -64,9 +66,9 @@ services:
       INDEXER_MEMORY_LIMIT: "3"
       SHOW_TESTNET_LABEL: true
       SUPPORTED_CHAINS: '[]'
-      LOGO: /images/omni_logo.svg
+      LOGO: /images/omni_logo_long.svg
       APPS_MENU: false
-      FOOTER_LOGO: /images/omni_logo.svg
+      FOOTER_LOGO: /images/omni_logo_long.svg
       FOOTER_CHAT_LINK: https://discord.com/invite/bKNXmaX9VD
       FOOTER_FORUM_LINK_ENABLED: false
       FOOTER_TELEGRAM_LINK_ENABLED: true
@@ -74,10 +76,13 @@ services:
       FOOTER_GITHUB_LINK: https://github.com/omni-network/blockscout
       FOOTER_LINK_TO_OTHER_EXPLORERS: false
       NEXT_PUBLIC_FOOTER_TWITTER_LINK: https://twitter.com/OmniFDN
+
     ports:
-      - 4000:4000
+       - 4000:4000
     volumes:
       - ./logs/:/app/logs/
+
+
 
   smart-contract-verifier:
     extends:
