@@ -5,7 +5,7 @@ const explorerByChain = {
   'scroll-sepolia': 'https://sepolia-blockscout.scroll.io/tx/',
   'arbitrum-goerli': 'https://goerli.arbiscan.io/tx/',
   'optimism-goerli': 'https://goerli-optimism.etherscan.io/tx/',
-  'linea-goerli': 'https://explorer.goerli.linea.build/tx/',
+  'linea-goerli': 'https://explorer.goerli.linea.build/tx/'
 }
 
 const chainDisplayName = chain =>
@@ -30,9 +30,12 @@ const xchainMarker = () => {
   return div
 }
 
-const infoIcon = `<i class="xchain-data__detail-icon fa-solid fa-circle-info"></i>`
-const successIcon = `<i style="color: #20b760;" class="fa-regular fa-circle-check"></i>`
-const errorIcon = `<i style="color: #dc3545;" class="fa-solid fa-circle-exclamation"></i>`
+const infoIcon =
+  '<i class="xchain-data__detail-icon fa-solid fa-circle-info"></i>'
+const successIcon =
+  '<i style="color: #20b760;" class="fa-regular fa-circle-check"></i>'
+const errorIcon =
+  '<i style="color: #dc3545;" class="fa-solid fa-circle-exclamation"></i>'
 
 const xchainDetail = (label, value) => `
   <div class="xchain-data__detail">
@@ -78,31 +81,31 @@ const xchainDetails = details => {
     SourceNonce,
     ChainBlockNumber,
     ExternalChainDisplayName,
-    ExternalTxLink,
+    ExternalTxLink
   } = details
 
   div.className = 'xchain-data__details'
 
-  div.innerHTML += xchainDetail('Source Chain', chainDisplayName(SourceChain))
-  div.innerHTML += xchainDetail(
-    'Destination Chain',
-    chainDisplayName(DestinationChain),
-  )
-  div.innerHTML += xchainDetail('Omni Tx Hash', OmniTxHash)
+  let html = xchainDetail('Source Chain', chainDisplayName(SourceChain))
+
+  html += xchainDetail('Destination Chain', chainDisplayName(DestinationChain))
+  html += xchainDetail('Omni Tx Hash', OmniTxHash)
 
   const extTxHashLabel = ExternalChainDisplayName + ' Tx Hash'
-  div.innerHTML +=
+  html +=
     ExternalTxLink == null
       ? xchainDetail(extTxHashLabel, ChainTxHash)
       : xchainDetailLink(extTxHashLabel, ChainTxHash, ExternalTxLink)
 
-  div.innerHTML += xchainDetail(
+  html += xchainDetail(
     ExternalChainDisplayName + ' Tx Status',
-    ChainTxStatus === 'success' ? xchainSuccess : xchainError,
+    ChainTxStatus === 'success' ? xchainSuccess : xchainError
   )
 
-  div.innerHTML += xchainDetail('Source Nonce', SourceNonce)
-  div.innerHTML += xchainDetail('Chain Block Number', ChainBlockNumber)
+  html += xchainDetail('Source Nonce', SourceNonce)
+  html += xchainDetail('Chain Block Number', ChainBlockNumber)
+
+  div.innerHTML = html
 
   return div
 }
@@ -162,7 +165,7 @@ const getXChainTxs = async elements => {
     const response = await fetch(indexerUrl + '/checkOmniTxHashes', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ txHashes: elements }),
+      body: JSON.stringify({ txHashes: elements })
     })
     if (response.status === 400) {
       await response.json().then(console.error)
@@ -193,7 +196,7 @@ const getAllTxHashElements = () => {
   return document.querySelectorAll('[data-test="transaction_hash_link"]')
 }
 
-const addXChainMarket = e => {
+const addXChainMarker = e => {
   const marker = xchainMarker()
   e.appendChild(marker)
 
@@ -215,7 +218,7 @@ const handletxHashLinks = async () => {
       i.parentNode.childElementCount <= 2 &&
       txMapCache[i.innerHTML] === true
     ) {
-      addXChainMarket(i.parentNode)
+      addXChainMarker(i.parentNode)
     } else if (txMapCache[i.innerHTML] === undefined) {
       unknownTxList.push(i.innerHTML)
     }
@@ -234,7 +237,7 @@ const handletxHashLinks = async () => {
   for (const i of elements) {
     if (xChainTxs[i.innerHTML] === true) {
       txMapCache[i.innerHTML] = true
-      addXChainMarket(i.parentNode)
+      addXChainMarker(i.parentNode)
     } else if (txMapCache[i.innerHTML] == null) {
       txMapCache[i.innerHTML] = false
     }
@@ -243,7 +246,7 @@ const handletxHashLinks = async () => {
 
 const displayTxDetails = async txHash => {
   const elements = document.querySelectorAll(
-    '[class="card js-ad-dependant-mb-3"]',
+    '[class="card js-ad-dependant-mb-3"]'
   )
   if (elements.length !== 1) {
     console.log('could not find unique tx view element')
@@ -252,8 +255,6 @@ const displayTxDetails = async txHash => {
   const container = elements[0]
 
   const details = await getTxDetails(txHash)
-
-  console.log(details)
 
   if (details === undefined) return
 
