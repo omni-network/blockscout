@@ -59,6 +59,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "theme/fonts";
 
 // Custom SCSS
+@import "omni";
 @import "layout";
 @import "typography";
 @import "code";
