@@ -78,7 +78,7 @@ services:
       NEXT_PUBLIC_FOOTER_TWITTER_LINK: https://twitter.com/OmniFDN
 
     ports:
-       - 4000:4000
+      - 4000:4000
     volumes:
       - ./logs/:/app/logs/
 
