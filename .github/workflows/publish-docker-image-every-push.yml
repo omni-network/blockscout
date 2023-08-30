@@ -7,7 +7,13 @@ on:
 env:
   OTP_VERSION: '25.2.1'
   ELIXIR_VERSION: '1.14.3'
-  RELEASE_VERSION: 5.2.2
+
+  # version of blockscout forked from
+  BLOCKSCOUT_VERSION: '5.2.2'
+
+  # omniops blockscout release version
+  RELEASE_VERSION: '0.1.0'
+
 
 jobs:
   push_to_registry:
