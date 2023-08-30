@@ -76,13 +76,10 @@ services:
       FOOTER_GITHUB_LINK: https://github.com/omni-network/blockscout
       FOOTER_LINK_TO_OTHER_EXPLORERS: false
       NEXT_PUBLIC_FOOTER_TWITTER_LINK: https://twitter.com/OmniFDN
-
     ports:
       - 4000:4000
     volumes:
       - ./logs/:/app/logs/
-
-
 
   smart-contract-verifier:
     extends:
