@@ -75,8 +75,8 @@ jobs:
             AMPLITUDE_URL=
             AMPLITUDE_API_KEY=
             CACHE_ADDRESS_WITH_BALANCES_UPDATE_INTERVAL=
-            BLOCKSCOUT_VERSION=v${{ env.RELEASE_VERSION }}-beta.+commit.${{ env.SHORT_SHA }}
-            RELEASE_VERSION=${{ env.RELEASE_VERSION }}
+            BLOCKSCOUT_VERSION=v${{ env.BLOCKSCOUT_VERSION }}-beta.+commit.${{ env.SHORT_SHA }}
+            RELEASE_VERSION=${{ env.BLOCKSCOUT_VERSION }}
 
       # - name: Build and push Docker image for frontend
       #   uses: docker/build-push-action@v3
