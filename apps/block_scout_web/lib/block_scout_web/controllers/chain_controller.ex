@@ -11,6 +11,7 @@ defmodule BlockScoutWeb.ChainController do
   alias Explorer.Chain.Cache.Block, as: BlockCache
   alias Explorer.Chain.Cache.GasUsage
   alias Explorer.Chain.Cache.Transaction, as: TransactionCache
+  alias Explorer.Chain.Cache.OmniXChainTransactions, as: OmniXChainTransactionsCache
   alias Explorer.Chain.Search
   alias Explorer.Chain.Supply.RSK
   alias Explorer.Counters.AverageBlockTime
@@ -22,6 +23,7 @@ defmodule BlockScoutWeb.ChainController do
     total_gas_usage = GasUsage.total()
     block_count = BlockCache.estimated_count()
     address_count = Counters.address_estimated_count()
+    omni_xchain_transactions_count = OmniXChainTransactionsCache.count()
 
     market_cap_calculation =
       case Application.get_env(:explorer, :supply) do
@@ -58,6 +60,7 @@ defmodule BlockScoutWeb.ChainController do
       transactions_path: recent_transactions_path(conn, :index),
       transaction_stats: transaction_stats,
       block_count: block_count,
+      omni_xchain_transactions_count: omni_xchain_transactions_count,
       gas_price: Application.get_env(:block_scout_web, :gas_price)
     )
   end
