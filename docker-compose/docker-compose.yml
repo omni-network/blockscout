@@ -43,8 +43,8 @@ services:
     environment:
       PERMANENT_LIGHT_MODE_ENABLED: true
       ETHEREUM_JSONRPC_VARIANT: 'geth'
-      ETHEREUM_JSONRPC_HTTP_URL: http://testnet-sentry-explorer.omni.network:8545
-      ETHEREUM_JSONRPC_TRACE_URL: http://testnet-sentry-explorer.omni.network:8545
+      ETHEREUM_JSONRPC_HTTP_URL: http://localhost:8545
+      ETHEREUM_JSONRPC_TRACE_URL: http://localhost:8545
       JSON_RPC: https://testnet.omni.network
       DATABASE_URL: postgresql://postgres:@host.docker.internal:7432/blockscout?ssl=false
       ECTO_USE_SSL: 'false'
