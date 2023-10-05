@@ -12,7 +12,7 @@ env:
   BLOCKSCOUT_VERSION: '5.2.2'
 
   # omniops blockscout release version
-  RELEASE_VERSION: '0.1.0'
+  RELEASE_VERSION: '0.1.1'
 
 
 jobs:
