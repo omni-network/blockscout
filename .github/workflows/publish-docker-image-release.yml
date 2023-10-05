@@ -13,12 +13,16 @@ env:
   OTP_VERSION: '25.2.1'
   ELIXIR_VERSION: '1.14.3'
 
+  # version of blockscout forked from
+  BLOCKSCOUT_VERSION: '5.2.2'
+
+  # omniops blockscout release version
+  RELEASE_VERSION: '0.1.1'
+
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    env:
-      RELEASE_VERSION: 5.2.2
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -66,7 +70,7 @@ jobs:
             AMPLITUDE_URL=
             AMPLITUDE_API_KEY=
             CACHE_ADDRESS_WITH_BALANCES_UPDATE_INTERVAL=
-            BLOCKSCOUT_VERSION=v${{ env.RELEASE_VERSION }}-beta
+            BLOCKSCOUT_VERSION=v${{ env.BLOCKSCOUT_VERSION }}-beta
             RELEASE_VERSION=${{ env.RELEASE_VERSION }}
 
   # merge-master-after-release:

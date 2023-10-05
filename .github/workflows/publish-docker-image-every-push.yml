@@ -61,7 +61,7 @@ jobs:
           push: true
           cache-from: type=registry,ref=omniops/blockscout:buildcache
           cache-to: type=registry,ref=omniops/blockscout:buildcache,mode=max
-          tags: omniops/blockscout:latest, omniops/blockscout:${{ env.RELEASE_VERSION }}.commit.${{ env.SHORT_SHA }}
+          tags: omniops/blockscout:main, omniops/blockscout:${{ env.RELEASE_VERSION }}-beta.commit.${{ env.SHORT_SHA }}
           build-args: |
             CACHE_EXCHANGE_RATES_PERIOD=
             API_V1_READ_METHODS_DISABLED=false

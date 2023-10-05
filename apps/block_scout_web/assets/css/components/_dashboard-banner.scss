@@ -254,8 +254,9 @@ $dashboard-banner-chart-axis-font-color-alt: #333;
 
 .dashboard-banner-network-stats {
   column-gap: 25px;
+  row-gap: 10px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 
   @include media-breakpoint-down(lg) {
     grid-template-columns: 1fr 1fr;
