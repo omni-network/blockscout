@@ -12,7 +12,7 @@ THIS_FILE = $(lastword $(MAKEFILE_LIST))
 BLOCKSCOUT_VERSION ?= '5.2.2'
 
 # version of omniops:blockscout
-RELEASE_VERSION ?= '0.1.0'
+RELEASE_VERSION ?= '0.1.1'
 
 PORT ?= '4000'
 TAG := $(RELEASE_VERSION)-commit-$(shell git log -1 --pretty=format:"%h")
