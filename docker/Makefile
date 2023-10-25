@@ -1,13 +1,19 @@
 SYSTEM := $(shell uname -s)
 HOST := host.docker.internal
-DOCKER_REPO := blockscout
+DOCKER_REPO := omniops
 APP_NAME := blockscout
 BS_CONTAINER_IMAGE := $(DOCKER_REPO)/$(APP_NAME)
 BS_CONTAINER_NAME := blockscout
 PG_CONTAINER_IMAGE := postgres:14
 PG_CONTAINER_NAME := db
 THIS_FILE = $(lastword $(MAKEFILE_LIST))
-RELEASE_VERSION ?= '5.2.2'
+
+# verson of blockscout forked from
+BLOCKSCOUT_VERSION ?= '5.2.2'
+
+# version of omniops:blockscout
+RELEASE_VERSION ?= '0.1.1'
+
 PORT ?= '4000'
 TAG := $(RELEASE_VERSION)-commit-$(shell git log -1 --pretty=format:"%h")
 STABLE_TAG := $(RELEASE_VERSION)
@@ -745,6 +751,7 @@ ifdef INDEXER_TOKEN_INSTANCE_SANITIZE_BATCH_SIZE
 	BLOCKSCOUT_CONTAINER_PARAMS += -e 'INDEXER_TOKEN_INSTANCE_SANITIZE_BATCH_SIZE=$(INDEXER_TOKEN_INSTANCE_SANITIZE_BATCH_SIZE)'
 endif
 
+# use BLOCKSCOUT_VERSION as release version (app file structure relies on it)
 HAS_BLOCKSCOUT_IMAGE := $(shell docker images | grep -sw "${BS_CONTAINER_IMAGE} ")
 build:
 	@echo "==> Checking for blockscout image $(BS_CONTAINER_IMAGE)"
@@ -752,7 +759,7 @@ ifdef HAS_BLOCKSCOUT_IMAGE
 	@echo "==> Image exist. Using $(BS_CONTAINER_IMAGE)"
 else
 	@echo "==> No image found, trying to build one..."
-	@docker build -f ./Dockerfile --build-arg RELEASE_VERSION=$(RELEASE_VERSION) -t $(BS_CONTAINER_IMAGE) ../
+	@docker build -f ./Dockerfile --build-arg RELEASE_VERSION=$(BLOCKSCOUT_VERSION) -t $(BS_CONTAINER_IMAGE) ../
 endif
 
 migrate_only:

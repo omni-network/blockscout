@@ -142,6 +142,14 @@
               <%= BlockScoutWeb.Cldr.Number.to_string!(@address_count, format: "#,###") %>
             </span>
           </div>
+          <div class="dashboard-banner-network-stats-item dashboard-banner-network-stats-item-5">
+            <span class="dashboard-banner-network-stats-label">
+              <%= gettext "X-Rollup transactions" %>
+            </span>
+            <span class="dashboard-banner-network-stats-value" data-selector="omni-xchain-transactions-count">
+              <%= BlockScoutWeb.Cldr.Number.to_string!(@omni_xchain_transactions_count, format: "#,###") %>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -172,7 +180,7 @@
         <div hidden data-selector="loading-message" class="col-lg-3" >
          <div data-selector="chain-block">
            <div class="tile tile-type-block n-p d-flex flex-column">
-             <a class="tile-title"><span class="tile-loader tile-label-loader"></span> </a> 
+             <a class="tile-title"><span class="tile-loader tile-label-loader"></span> </a>
              <div class="tile-bottom-contents">
                <div class="dark-block-loader"></div>
                <div class="dark-block-loader"></div>
@@ -183,7 +191,7 @@
         <div hidden data-selector="loading-message" class="col-lg-3" >
          <div data-selector="chain-block">
            <div class="tile tile-type-block n-p d-flex flex-column">
-             <a class="tile-title"><span class="tile-loader tile-label-loader"></span> </a> 
+             <a class="tile-title"><span class="tile-loader tile-label-loader"></span> </a>
              <div class="tile-bottom-contents">
                <div class="dark-block-loader"></div>
                <div class="dark-block-loader"></div>
@@ -201,7 +209,7 @@
             </div>
            </div>
          </div>
-        </div>   
+        </div>
       </div>
     </div>
   </div>
